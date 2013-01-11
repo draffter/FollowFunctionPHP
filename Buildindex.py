@@ -5,6 +5,7 @@ import re
 
 class BuildindexCommand(sublime_plugin.TextCommand):
 	functionsArray = []
+	dbFile = None
 
 	def grep(self, filename, pattern):
 		datafile = file(filename)
@@ -12,10 +13,14 @@ class BuildindexCommand(sublime_plugin.TextCommand):
 			if pattern.decode('utf-8') in line.decode('utf-8'):
 				templine = []
 				templine = line.split()
-				print templine
+				# print templine
 				ind = templine.index("function")+1
 				nazwaFunkcji = templine[ind]
-				self.functionsArray.append(nazwaFunkcji + ";" + filename)
+				lineToFile = nazwaFunkcji + ";" + filename
+				try:
+					self.dbFile.write(lineToFile.decode('utf-8') + "\n")
+				except IOError:
+					print "blad zapisu"
 
 	def find(self, path, tofind, filePattern):
 		project_path = os.path.normpath(path)
@@ -27,21 +32,30 @@ class BuildindexCommand(sublime_plugin.TextCommand):
 				if fnmatch.fnmatch(filepath, filePattern):
 					result = self.grep(filepath, tofind)
 
-	def saveDbToFile(self, file):
-		file = open(file, 'w')
-		for line in self.functionsArray:
-			file.write(line + "\n")
-		file.close()
-		self.functionsArray = []
+	def initDb(self, filename):
+		try:
+			self.dbFile = open(filename, 'w')
+			return True
+		except IOError:
+			print "blad otwarcia "+filename
+		return False
+
+	def closeDb(self):
+		try:
+			self.dbFile.close()
+		except IOError:
+			print "blad zamkniecia "
 
 	def run(self, edit):
 		dirs = self.getDirectories()
 		for dir in dirs:
+			print dir
 			pName = self.getDirectoryMD5(dir)
-			self.dbPath = os.path.join(sublime.packages_path(), "Followfunctionphp", pName)
-			print self.dbPath
-			self.find(dir, " function ", "*.php")
-			self.saveDbToFile(pName)
+			dbPath = os.path.join(sublime.packages_path(), "Followfunctionphp", pName)
+			print dbPath
+			if self.initDb(dbPath):
+				self.find(dir, " function ", "*.php")
+				self.closeDb()
 		return
 
 	def getDirectories(self):

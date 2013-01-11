@@ -64,8 +64,9 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 		dirs = self.getDirectories()
 		found = 0
 		for dir in dirs:
-			dbFile = self.getDirectoryMD5(dir)
-			r = self.grepDb(dbFile)
+			pName = self.getDirectoryMD5(dir)
+			dbPath = os.path.join(sublime.packages_path(), "Followfunctionphp", pName)
+			r = self.grepDb(dbPath)
 			if r != None:
 				print "znalezione"
 				found = 1
