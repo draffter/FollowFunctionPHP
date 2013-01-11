@@ -1,6 +1,6 @@
 [
 	{
-		"button": "button1",
+		"button": "button2",
 		"count": 2,
 		"modifiers": ["ctrl", "shift"],
 		"command": "followfunctionphp"
