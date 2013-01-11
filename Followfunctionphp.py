@@ -8,7 +8,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 	resultfiles = []
 	dbPath = ""
 	word = ""
-	# view.run_command('followfunctionphp') ctrl+k, ctrl+a
+
 	def grepDb(self, filename):
 		isresult = None
 		files = []
@@ -16,8 +16,9 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 			for n, line in enumerate(open(filename)):
 				if self.word.decode('utf-8') in line.decode('utf-8'):
 					tmpline = line.split(";")
-					self.resultfiles.append(tmpline[1])
-					isresult = 1
+					if tmpline[1] != "":
+						self.resultfiles.append(tmpline[1])
+						isresult = 1
 		else:
 			print "Brak indeksu"
 			sublime.status_message('Wykonaj indeksacje funkcji')
@@ -31,7 +32,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 		return None
 
 	def openfile(self, num):
-		print "Plikow znalezionych: %d" % len(self.resultfiles)
+		# print "Plikow znalezionych: %d" % len(self.resultfiles)
 		if num > -1:
 			selectedFile = os.path.normpath(self.resultfiles[num])
 			fileWithPosition = self.grep(selectedFile)
@@ -59,6 +60,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 		return md5var
 
 	def run(self, edit):
+		# print 'START'
 		self.resultfiles = []
 		self.word = self.getword()
 		dirs = self.getDirectories()
@@ -68,12 +70,12 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 			dbPath = os.path.join(sublime.packages_path(), "Followfunctionphp", pName)
 			r = self.grepDb(dbPath)
 			if r != None:
-				print "znalezione"
+				# print "znalezione w %s" % dir
 				found = 1
 
 		if found == 1:
-			print "jest funkcja"
-			print self.resultfiles
+			# print "jest funkcja"
+			# print self.resultfiles
 			self.openfile(-2)
 
 		else:

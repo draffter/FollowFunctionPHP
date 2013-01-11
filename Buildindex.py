@@ -12,6 +12,12 @@ class BuildindexCommand(sublime_plugin.TextCommand):
 		for line in datafile:
 			if pattern.decode('utf-8') in line.decode('utf-8'):
 				templine = []
+				# templine = line.split("function")
+				# functionNameTemp = templine[1]
+				# functionName = functionNameTemp.split(")")[0] + ")"
+				# if functionName[-2] == "(" and functionName[-3] == "y":
+				# 	functionName = functionName + ")"
+				# lineToFile = functionName + ";" + filename
 				templine = line.split()
 				# print templine
 				ind = templine.index("function")+1
@@ -24,10 +30,10 @@ class BuildindexCommand(sublime_plugin.TextCommand):
 
 	def find(self, path, tofind, filePattern):
 		project_path = os.path.normpath(path)
-		print "project path %s" % project_path
+		# print "project path %s" % project_path
 		for path, dirs, files in os.walk(os.path.abspath(project_path)):
 			for filename in fnmatch.filter(files, filePattern):
-				print "filename in path %s" % filename
+				# print "filename in path %s" % filename
 				filepath = os.path.join(path, filename)
 				if fnmatch.fnmatch(filepath, filePattern):
 					result = self.grep(filepath, tofind)
@@ -49,10 +55,8 @@ class BuildindexCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		dirs = self.getDirectories()
 		for dir in dirs:
-			print dir
 			pName = self.getDirectoryMD5(dir)
 			dbPath = os.path.join(sublime.packages_path(), "Followfunctionphp", pName)
-			print dbPath
 			if self.initDb(dbPath):
 				self.find(dir, " function ", "*.php")
 				self.closeDb()
