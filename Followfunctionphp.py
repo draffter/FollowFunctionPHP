@@ -21,7 +21,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 						isresult = 1
 		else:
 			print "Brak indeksu"
-			sublime.status_message('Wykonaj indeksacje funkcji')
+			sublime.status_message('Please reindex files')
 		return isresult
 
 	def grep(self, filename):
@@ -41,7 +41,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 			self.view.window().show_quick_panel(self.resultfiles, self.openfile)
 		else:
 			print "nie ma funkcji"
-			sublime.status_message('Nie znaleziono funkcji! Wykonaj ponowna indeksacje funkcji')
+			sublime.status_message('No function found! Reindex!')
 
 	def getword(self):
 		sel = self.view.sel()[0]
@@ -80,6 +80,6 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 
 		else:
 			print "nie ma funkcji"
-			sublime.status_message('Nie znaleziono funkcji! Wykonaj ponowna indeksacje funkcji')
+			sublime.status_message('No function found! Reindex!')
 
 		return

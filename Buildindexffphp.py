@@ -17,7 +17,7 @@ class BuildindexffphpCommand(sublime_plugin.TextCommand):
 			thread = BuildindexThread(dir, dbPath)
 			threads.append(thread)
 			thread.start()
-		sublime.status_message("Indeksujemy!")
+		sublime.status_message("Indexing, please be patient")
 		self.handle_threads(threads)
 
 	def handle_threads(self, threads):
@@ -30,10 +30,10 @@ class BuildindexffphpCommand(sublime_plugin.TextCommand):
 				continue
 		threads = next_threads
 		if (len(threads)):
-			sublime.status_message("Indeksacja katalogow PHP. Pozostalo: %d" % (self.dirCount - (self.dirCount - len(threads))))
+			sublime.status_message("Indexing files. Remaining: %d" % (self.dirCount - (self.dirCount - len(threads))))
 			sublime.set_timeout(lambda: self.handle_threads(threads), 200)
 		else:
-			sublime.status_message("Koniec indeksacji")
+			sublime.status_message("Thank you for indexing. Plugin is ready to use")
 
 		return
 
