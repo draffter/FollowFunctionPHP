@@ -38,7 +38,12 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 			fileWithPosition = self.grep(selectedFile)
 			self.view.window().open_file(fileWithPosition,sublime.ENCODED_POSITION)
 		elif num == -2:
-			self.view.window().show_quick_panel(self.resultfiles, self.openfile)
+			if len(self.resultfiles) == 1:
+				selectedFile = os.path.normpath(self.resultfiles[0])
+				fileWithPosition = self.grep(selectedFile)
+				self.view.window().open_file(fileWithPosition,sublime.ENCODED_POSITION)
+			else:
+				self.view.window().show_quick_panel(self.resultfiles, self.openfile)
 		else:
 			print "nie ma funkcji"
 			sublime.status_message('No function found! Reindex!')
