@@ -27,7 +27,8 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 	def grep(self, filename):
 		datafile = filename.replace('\\', '/').replace('\n','')
 		for n, line in enumerate(open(datafile)):
-			if self.word.decode('utf-8') in line.decode('utf-8'):
+			search = "function " + self.word
+			if search.decode('utf-8') in line.decode('utf-8'):
 				return datafile + ":" + str(n+1) + ":0"
 		return None
 
