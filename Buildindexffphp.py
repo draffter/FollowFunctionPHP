@@ -54,7 +54,7 @@ class BuildindexThread(threading.Thread):
 	def grep(self, filename, pattern):
 		datafile = file(filename)
 		for line in datafile:
-			if pattern.decode('utf-8') in line.decode('utf-8'):
+			if pattern.decode('utf-8') in line.decode('utf-8','ignore'):
 				templine = []
 				# templine = line.split("function")
 				# functionNameTemp = templine[1]
