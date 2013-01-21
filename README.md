@@ -1,7 +1,7 @@
 FollowFunctionPHP
 =================
 
-Follow Function PHP
+Package allows you to go to body of function under cursor in PHP files
 
 With this plugin you can open body of PHP function, when you click on called function name.
 
