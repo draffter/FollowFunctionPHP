@@ -20,6 +20,8 @@ class BuildindexffphpCommand(sublime_plugin.TextCommand):
 		sublime.status_message("Indexing, please be patient")
 		self.handle_threads(threads)
 
+	# obsluga watkow indeksowania,
+	# osobny watek dla kazdego katalogu w lewym oknie
 	def handle_threads(self, threads):
 		next_threads = []
 		for thread in threads:
@@ -37,9 +39,11 @@ class BuildindexffphpCommand(sublime_plugin.TextCommand):
 
 		return
 
+	# pobiera liste katalogow otwartych (lewe okno)
 	def getDirectories(self):
 		return sublime.active_window().folders()
 
+	# poiera hash pliku z baza
 	def getDirectoryMD5(self, dir):
 		import hashlib
 		m = hashlib.md5()
@@ -51,6 +55,8 @@ class BuildindexThread(threading.Thread):
 	functionsArray = []
 	dbFile = None
 
+	# przeszukuje plik pod katem podanego paternu,
+	# zapisuje, jezeli patern zostal znaleziony
 	def grep(self, filename, pattern):
 		datafile = file(filename)
 		for line in datafile:
@@ -72,6 +78,8 @@ class BuildindexThread(threading.Thread):
 				except IOError:
 					print "blad zapisu"
 
+	# przeszukuje katalog pod katem plikow
+	# w tym przypadku .php
 	def find(self, path, tofind, filePattern):
 		project_path = os.path.normpath(path)
 		# print "project path %s" % project_path
@@ -82,6 +90,7 @@ class BuildindexThread(threading.Thread):
 				if fnmatch.fnmatch(filepath, filePattern):
 					result = self.grep(filepath, tofind)
 
+	# inicjuje plik z baza danych
 	def initDb(self, filename):
 		try:
 			self.dbFile = open(filename, 'w')
@@ -90,6 +99,7 @@ class BuildindexThread(threading.Thread):
 			print "blad otwarcia "+filename
 		return False
 
+	# zamyka plik bazy danych
 	def closeDb(self):
 		try:
 			self.dbFile.close()
@@ -104,6 +114,6 @@ class BuildindexThread(threading.Thread):
 
 	def run(self):
 		if self.initDb(self.dbPath):
-			self.find(self.dir, " function ", "*.php")
+			self.find(self.dir, "function ", "*.php")
 			self.closeDb()
 		return
