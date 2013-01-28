@@ -40,7 +40,9 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 	def openfile(self, num):
 		# print "Plikow znalezionych: %d" % len(self.resultfiles)
 		if num > -1:
-			selectedFile = os.path.normpath(self.resultfiles[num])
+			print num
+			print self.resultfiles[num][1]
+			selectedFile = os.path.normpath(self.resultfiles[num][1])
 			fileWithPosition = self.grep(selectedFile)
 			self.saveUndo()
 			self.view.window().open_file(fileWithPosition,sublime.ENCODED_POSITION)
