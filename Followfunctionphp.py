@@ -18,7 +18,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 				if self.word.decode('utf-8') in line.decode('utf-8'):
 					tmpline = line.split(";")
 					if tmpline[1] != "":
-						self.resultfiles.append(tmpline[1])
+						self.resultfiles.append(tmpline)
 						isresult = 1
 		else:
 			print "Brak indeksu"
@@ -51,7 +51,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 				self.saveUndo()
 				self.view.window().open_file(fileWithPosition,sublime.ENCODED_POSITION)
 			else:
-				self.view.window().show_quick_panel(self.resultfiles, self.openfile)
+				self.view.window().show_quick_panel(self.resultfiles, self.openfile, sublime.MONOSPACE_FONT)
 		else:
 			print "nie ma funkcji"
 			sublime.status_message('No function found! Reindex!')

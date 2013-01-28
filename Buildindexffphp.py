@@ -61,22 +61,15 @@ class BuildindexThread(threading.Thread):
 		datafile = file(filename)
 		for line in datafile:
 			if pattern.decode('utf-8') in line.decode('utf-8','ignore'):
-				templine = []
-				# templine = line.split("function")
-				# functionNameTemp = templine[1]
-				# functionName = functionNameTemp.split(")")[0] + ")"
-				# if functionName[-2] == "(" and functionName[-3] == "y":
-				# 	functionName = functionName + ")"
-				# lineToFile = functionName + ";" + filename
-				templine = line.split()
-				# print templine
-				ind = templine.index("function")+1
-				nazwaFunkcji = templine[ind]
-				lineToFile = nazwaFunkcji + ";" + filename
-				try:
-					self.dbFile.write(lineToFile.decode('utf-8') + "\n")
-				except IOError:
-					print "blad zapisu"
+				start = line.find("function")
+				if start > -1:
+					stop = line.find(")")+1
+					nazwaFunkcji = line[start:stop]
+					lineToFile = nazwaFunkcji + ";" + filename
+					try:
+						self.dbFile.write(lineToFile.decode('utf-8') + "\n")
+					except IOError:
+						print "blad zapisu"
 
 	# przeszukuje katalog pod katem plikow
 	# w tym przypadku .php
