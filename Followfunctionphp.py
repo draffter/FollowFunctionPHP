@@ -6,6 +6,7 @@ import re
 
 class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 	resultfiles = []
+	viewResultfiles = []
 	dbPath = ""
 	word = ""
 
@@ -18,7 +19,16 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 				if self.word.decode('utf-8') in line.decode('utf-8'):
 					tmpline = line.split(";")
 					if tmpline[1] != "":
-						self.resultfiles.append(tmpline)
+						res = []
+						res.append(tmpline[0])
+						if len(tmpline[1]) > 50:
+							tmplen = len(tmpline[1])-46
+							# res.append(tmpline[1][:7] + "..." + tmpline[1][tmplen:])
+							res.append("..." + tmpline[1][tmplen:])
+						else:
+							res.append(tmpline[1])
+						self.viewResultfiles.append(res)
+						self.resultfiles.append(tmpline[1])
 						isresult = 1
 		else:
 			print "Brak indeksu"
@@ -40,9 +50,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 	def openfile(self, num):
 		# print "Plikow znalezionych: %d" % len(self.resultfiles)
 		if num > -1:
-			print num
-			print self.resultfiles[num][1]
-			selectedFile = os.path.normpath(self.resultfiles[num][1])
+			selectedFile = os.path.normpath(self.resultfiles[num])
 			fileWithPosition = self.grep(selectedFile)
 			self.saveUndo()
 			self.view.window().open_file(fileWithPosition,sublime.ENCODED_POSITION)
@@ -53,9 +61,8 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 				self.saveUndo()
 				self.view.window().open_file(fileWithPosition,sublime.ENCODED_POSITION)
 			else:
-				self.view.window().show_quick_panel(self.resultfiles, self.openfile, sublime.MONOSPACE_FONT)
+				self.view.window().show_quick_panel(self.viewResultfiles, self.openfile)
 		else:
-			print "nie ma funkcji"
 			sublime.status_message('No function found! Reindex!')
 
 	# zapisuje miejsce, z ktorego wywolano plugin, aby wrocic
@@ -111,6 +118,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		# print 'START'
 		self.resultfiles = []
+		self.viewResultfiles = []
 		self.word = self.getword()
 		dirs = self.getDirectories()
 		found = 0
