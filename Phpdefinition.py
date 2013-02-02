@@ -45,7 +45,8 @@ class PhpdefinitionCommand(sublime_plugin.TextCommand):
 			if "@link" in line:
 				idx = line.find("http")
 				self.link = line[idx:]
-			params.append(line.replace(" * ", "").replace("<p>","").replace("</p>","").replace("@param ","$").decode('utf-8','ignore'))
+			else:
+				params.append(line.replace(" * ", "").replace("<p>","").replace("</p>","").replace("@param ","$").decode('utf-8','ignore'))
 		returns.append(params)
 		self.view.window().show_quick_panel(returns, self.openInWeb)
 
