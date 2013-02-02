@@ -1,6 +1,4 @@
 FollowFunctionPHP
-=================
-
 Package allows you to go to body of function under cursor in PHP files or display standard php function definition
 
 With this plugin you can open body of PHP function, when you click on called function name.
@@ -14,5 +12,4 @@ If you see "No function found! Reindex!" you have to index files again.
 
 If you want to get back to position from you call a function body, just press Ctrl+Shift+u.
 
-NEW!!
 Press ctrl+shift+f10 to see standard php function definition. When hit enter key to open definition n web browser

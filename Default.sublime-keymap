@@ -1,5 +1,6 @@
 [
 	{ "keys": ["ctrl+shift+l"], "command": "followfunctionphp" },
 	{ "keys": ["ctrl+shift+u"], "command": "undoffphp" },
-	{ "keys": ["ctrl+k", "ctrl+i"], "command": "buildindexffphp" }
+	{ "keys": ["ctrl+k", "ctrl+i"], "command": "buildindexffphp" },
+	{ "keys": ["ctrl+shift+f10"], "command": "phpdefinition" }
 ]

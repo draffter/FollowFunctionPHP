@@ -1,0 +1,6 @@
+Changelog::
+
+Now you can display definition of standard, build-in PHP function.
+Press ctrl+shift+f10 to see the definition.
+
+On definition press enter to see full specyfication with examples in you web browser.
