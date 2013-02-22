@@ -119,7 +119,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 		# print 'START'
 		self.resultfiles = []
 		self.viewResultfiles = []
-		self.word = self.getword()
+		self.word = self.getword() + "("
 		dirs = self.getDirectories()
 		found = 0
 		for dir in dirs:
