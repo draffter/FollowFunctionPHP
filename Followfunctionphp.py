@@ -73,7 +73,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 			# (row,col) = self.view.rowcol(self.view.sel()[0].begin())
 
 		undoFilename = self.view.file_name() + ":" + str(row) + ":" + str(column)
-		filename = os.path.join(sublime.packages_path(), "Followfunctionphp", "undo")
+		filename = os.path.join(sublime.packages_path(), self.pathForDB, "undo")
 		if os.path.isfile(filename) == False:
 			with open(filename, 'w') as f:
 				f.write(undoFilename.decode('utf-8') + "\n")
@@ -115,8 +115,16 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 		md5var = m.hexdigest()
 		return md5var
 
+	def checkPathForDB(self):
+		for root, dirs, files in os.walk(sublime.packages_path()):
+			for onedir in dirs:
+				if re.match(r'.ollow ?.unction ?php', onedir):
+					self.pathForDB = onedir
+
+
 	def run(self, edit):
 		# print 'START'
+		self.checkPathForDB()
 		self.resultfiles = []
 		self.viewResultfiles = []
 		self.word = self.getword() + "("
@@ -124,7 +132,7 @@ class FollowfunctionphpCommand(sublime_plugin.TextCommand):
 		found = 0
 		for dir in dirs:
 			pName = self.getDirectoryMD5(dir)
-			dbPath = os.path.join(sublime.packages_path(), "Followfunctionphp", pName)
+			dbPath = os.path.join(sublime.packages_path(), self.pathForDB, pName)
 			r = self.grepDb(dbPath)
 			if r != None:
 				# print "znalezione w %s" % dir

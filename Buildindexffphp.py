@@ -7,13 +7,20 @@ import threading
 
 class BuildindexffphpCommand(sublime_plugin.TextCommand):
 
+	def checkPathForDB(self):
+		for root, dirs, files in os.walk(sublime.packages_path()):
+			for onedir in dirs:
+				if re.match(r'.ollow ?.unction ?php', onedir):
+					self.pathForDB = onedir
+
 	def run(self, edit):
 		threads = []
 		dirs = self.getDirectories()
 		self.dirCount = len(dirs)
+		self.checkPathForDB()
 		for dir in dirs:
 			pName = self.getDirectoryMD5(dir)
-			dbPath = os.path.join(sublime.packages_path(), "Followfunctionphp", pName)
+			dbPath = os.path.join(sublime.packages_path(), self.pathForDB, pName)
 			thread = BuildindexThread(dir, dbPath)
 			threads.append(thread)
 			thread.start()

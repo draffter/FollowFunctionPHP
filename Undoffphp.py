@@ -5,11 +5,18 @@ import re
 
 class UndoffphpCommand(sublime_plugin.TextCommand):
 
+	def checkPathForDB(self):
+		for root, dirs, files in os.walk(sublime.packages_path()):
+			for onedir in dirs:
+				if re.match(r'.ollow ?.unction ?php', onedir):
+					self.pathForDB = onedir
+
 	def run(self, edit):
+		self.checkPathForDB()
 		self.getUndo()
 
 	def getUndo(self):
-		dbFilename = os.path.join(sublime.packages_path(), "Followfunctionphp", "undo").replace('\\', '/').replace('\n','')
+		dbFilename = os.path.join(sublime.packages_path(), self.pathForDB, "undo").replace('\\', '/').replace('\n','')
 		with open(dbFilename, 'r+') as f:
 			lines = f.readlines()
 		f.close

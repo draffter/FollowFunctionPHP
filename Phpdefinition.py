@@ -12,7 +12,7 @@ class PhpdefinitionCommand(sublime_plugin.TextCommand):
 	def grepDb(self):
 		filePattern ="*.php"
 		filepath = ""
-		dirs = os.path.join(sublime.packages_path(), "Followfunctionphp", "_php")
+		dirs = os.path.join(sublime.packages_path(), self.pathForDB, "_php")
 		for path, dirs, files in os.walk(os.path.abspath(dirs)):
 			for filename in fnmatch.filter(files, filePattern):
 				filepath = os.path.join(path, filename)
@@ -63,8 +63,14 @@ class PhpdefinitionCommand(sublime_plugin.TextCommand):
 		string = self.view.substr(sel)
 		return string
 
+	def checkPathForDB(self):
+		for root, dirs, files in os.walk(sublime.packages_path()):
+			for onedir in dirs:
+				if re.match(r'.ollow ?.unction ?php', onedir):
+					self.pathForDB = onedir
 
 	def run(self, edit):
+		self.checkPathForDB()
 		self.word = "function " + self.getword()
 		self.grepDb()
 
