@@ -3,6 +3,7 @@ import tempfile, os, sys
 import fnmatch
 import linecache
 import webbrowser
+import re
 
 class PhpdefinitionCommand(sublime_plugin.TextCommand):
 	word = ""
