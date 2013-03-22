@@ -67,7 +67,7 @@ class PhpdefinitionCommand(sublime_plugin.TextCommand):
 	def checkPathForDB(self):
 		for root, dirs, files in os.walk(sublime.packages_path()):
 			for onedir in dirs:
-				if re.match(r'.ollow ?.unction ?php', onedir):
+				if re.match(r'.ollow ?.unction ?php', onedir, re.IGNORECASE):
 					self.pathForDB = onedir
 
 	def run(self, edit):
