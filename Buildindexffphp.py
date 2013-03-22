@@ -13,14 +13,12 @@ class BuildindexffphpCommand(sublime_plugin.TextCommand):
 			for onedir in dirs:
 				if re.match(r'.ollow ?.unction ?php', onedir, re.IGNORECASE):
 					self.pathForDB = onedir
-					print onedir
 
 	def run(self, edit):
 		threads = []
 		dirs = self.getDirectories()
 		self.dirCount = len(dirs)
 		self.checkPathForDB()
-		return
 		for dir in dirs:
 			pName = self.getDirectoryMD5(dir)
 			dbPath = os.path.join(sublime.packages_path(), self.pathForDB, pName)
