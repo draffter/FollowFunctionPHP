@@ -23,7 +23,7 @@ class PhpdefinitionCommand(sublime_plugin.TextCommand):
 							self.getDefinition(filepath, n)
 
 
-	# pobiera linie z definicja
+	# pobiera linie z definicja funkcji
 	def getDefinition(self, filepath, lineNumber):
 		lines = []
 		mainLine = linecache.getline(filepath, lineNumber+1)
