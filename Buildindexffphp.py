@@ -68,14 +68,16 @@ class BuildindexThread(threading.Thread):
 	def grep(self, filename, pattern):
 		datafile = file(filename)
 		for line in datafile:
-			if pattern.decode('utf-8') in line.decode('utf-8','ignore'):
+			if pattern.encode('utf-8') in line.decode('utf-8','ignore'):
 				start = line.find("function")
 				if start > -1:
 					stop = line.find(")")+1
 					nazwaFunkcji = line[start:stop]
-					lineToFile = nazwaFunkcji + ";" + filename
+					lineToFile = nazwaFunkcji.decode('utf-8') + ";" + filename.decode('utf-8')
 					try:
-						self.dbFile.write(lineToFile.decode('utf-8') + "\n")
+						# if filename == 'Reportprocedures.php':
+						# 	print lineToFile.encode('utf-8')
+						self.dbFile.write(lineToFile.encode('utf-8') + "\n")
 					except IOError:
 						print "blad zapisu"
 
